@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Test</title>
+</head>
+<body>
+    <h1>Firebase Connection Test</h1>
+    
+    Email: <input type="email" id="email" value="test@example.com"><br><br>
+    Password: <input type="password" id="password" value="test123456"><br><br>
+    
+    <button onclick="signUp()">Sign Up</button>
+    <button onclick="signIn()">Sign In</button>
+    
+    <pre id="result"></pre>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlwJ72XL3C2hPFc3GRvgNQz01UOrJvuI4",
+            authDomain: "sovereign-app-5242b.firebaseapp.com",
+            projectId: "sovereign-app-5242b",
+            storageBucket: "sovereign-app-5242b.firebasestorage.app",
+            messagingSenderId: "1056173781935",
+            appId: "1:1056173781935:web:893fa849f7a463744c355a"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        window.signUp = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                result.textContent = '✅ Success! User created: ' + userCredential.user.email;
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        };
+        
+        window.signIn = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                result.textContent = '✅ Success! Logged in as: ' + userCredential.user.email;
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        };
+    </script>
+</body>
+</html>
